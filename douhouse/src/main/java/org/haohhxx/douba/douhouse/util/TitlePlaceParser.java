@@ -1,4 +1,4 @@
-package org.haohhxx.douba.douhouse.service;
+package org.haohhxx.douba.douhouse.util;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.Segment;
@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class TitlePlaceParser {
 
-    private Segment segment = HanLP.newSegment().enablePlaceRecognize(true);
+    private static Segment segment = HanLP.newSegment().enablePlaceRecognize(true);
 
     /**
      * @param tofind tofindStr
@@ -30,7 +30,10 @@ public class TitlePlaceParser {
         return str;
     }
 
-    public void find(String text){
+    public static String find(String text){
+        String maxLenRe = "";
+        int max = 0;
+
         String regix = "%s.{0,10}[村,厦,路,旁,站,寓,区]";
         System.out.println("text:");
         List<Term> cuts = segment.seg(text);
@@ -42,9 +45,13 @@ public class TitlePlaceParser {
                     term.nature.startsWith("nz")){
                 String tofind = String.format(regix,term.word);
                 String found = findStr(tofind,text);
-                System.out.println(tofind);
-                System.out.println(found);
+                int foundLen = found.length();
+                if(foundLen>max){
+                    max = foundLen;
+                    maxLenRe = found;
+                }
             }
         }
+        return maxLenRe;
     }
 }
