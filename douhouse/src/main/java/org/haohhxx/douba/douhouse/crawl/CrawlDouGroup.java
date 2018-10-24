@@ -26,7 +26,7 @@ public class CrawlDouGroup {
 
     private static CloseableHttpClient httpclient = HttpClients.createDefault();
 
-    private String getHouseIndex(String groupId,String startPage) throws IOException {
+    public String getHouseIndex(String groupId,String startPage) throws IOException {
         String baseUrl = "https://www.douban.com/group/%s/discussion?start=%d";
         String url = String.format(baseUrl, groupId, startPage);
         HttpGet httpGet = new HttpGet(url);
@@ -36,7 +36,7 @@ public class CrawlDouGroup {
         return respContentHtml;
     }
 
-    private List<HouseMess> parserIndexPage(String respContentHtml){
+    public List<HouseMess> parserIndexPage(String respContentHtml){
         List<HouseMess> hous = new ArrayList<>();
         Document document = Jsoup.parse(respContentHtml);
         int start = 2;
