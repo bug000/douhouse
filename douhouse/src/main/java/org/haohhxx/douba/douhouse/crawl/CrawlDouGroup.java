@@ -55,6 +55,9 @@ public class CrawlDouGroup {
 
             String place = TitlePlaceParser.find(title);
 
+            if("".equals(replyNub)){
+                replyNub = "0";
+            }
             id = TitlePlaceParser.findStr("\\d{1,15}",id);
             author = TitlePlaceParser.findStr("\\d{1,15}",author);
 
