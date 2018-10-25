@@ -24,7 +24,7 @@ public class HouseService {
         return dao.insert(model) > 0;
     }
 
-    public HouseMess select(int id) {
+    public HouseMess select(String id) {
         return dao.select(id);
     }
 
@@ -32,11 +32,15 @@ public class HouseService {
         return dao.selectAll();
     }
 
-    public boolean updateValue(HouseMess model) {
-        return dao.updateValue(model) > 0;
+    public boolean updateTitle(HouseMess model) {
+        return dao.updateTitle(model) > 0;
     }
 
-    public boolean delete(Integer id) {
+    public boolean update(HouseMess model) {
+        return dao.update(model) > 0;
+    }
+
+    public boolean delete(String id) {
         return dao.delete(id) > 0;
     }
 

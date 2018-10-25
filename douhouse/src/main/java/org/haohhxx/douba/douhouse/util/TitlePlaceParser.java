@@ -20,8 +20,8 @@ public class TitlePlaceParser {
      * @param all textAll
      * @return
      */
-    private static String findStr(String tofind, String all) {
-        String str = null;
+    public static String findStr(String tofind, String all) {
+        String str = "";
         Pattern p = Pattern.compile(tofind);
         Matcher m = p.matcher(all);
         while (m.find()) {
@@ -31,13 +31,14 @@ public class TitlePlaceParser {
     }
 
     public static String find(String text){
+        if("".equals(text)){
+            return "";
+        }
         String maxLenRe = "";
         int max = 0;
 
         String regix = "%s.{0,10}[村,厦,路,旁,站,寓,区]";
-        System.out.println("text:");
         List<Term> cuts = segment.seg(text);
-        System.out.println(cuts);
         for(Term term:cuts){
             if(term.nature.startsWith("ns")||
                     term.nature.startsWith("f")||
@@ -45,13 +46,20 @@ public class TitlePlaceParser {
                     term.nature.startsWith("nz")){
                 String tofind = String.format(regix,term.word);
                 String found = findStr(tofind,text);
-                int foundLen = found.length();
-                if(foundLen>max){
-                    max = foundLen;
-                    maxLenRe = found;
+                if(!"".equals(found)){
+                    int foundLen = found.length();
+                    if(foundLen>max){
+                        max = foundLen;
+                        maxLenRe = found;
+                    }
                 }
             }
         }
+        maxLenRe = format(maxLenRe);
         return maxLenRe;
     }
+    private static String format(String maxLenRe){
+        return maxLenRe.replaceAll("高档小区","");
+    }
+
 }
