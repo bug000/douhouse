@@ -7,6 +7,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.haohhxx.douba.douhouse.model.HouseMess;
+import org.haohhxx.douba.douhouse.util.AMapPointofInterest;
 import org.haohhxx.douba.douhouse.util.BaiduPositioning;
 import org.haohhxx.douba.douhouse.util.TitlePlaceParser;
 import org.jsoup.Jsoup;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 定时访问豆瓣小组静态页面。
@@ -30,9 +32,9 @@ import java.util.List;
  */
 public class CrawlDouGroup {
 
-    private static CloseableHttpClient httpclient = HttpClients.createDefault();
-    private Calendar calendar = Calendar.getInstance();
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private final CloseableHttpClient httpclient = HttpClients.createDefault();
+    private final Calendar calendar = Calendar.getInstance();
+//    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private String replyTimeFormat(String douDateStr) throws ParseException {
         int year = calendar.get(Calendar.YEAR);
@@ -69,8 +71,8 @@ public class CrawlDouGroup {
                 replyNub = "0";
             }
             replyTime = replyTimeFormat(replyTime);
-            id = TitlePlaceParser.findStr("\\d{1,15}",id);
-            author = TitlePlaceParser.findStr("\\d{1,15}",author);
+//            id = TitlePlaceParser.findStr("\\d{1,15}",id);
+//            author = TitlePlaceParser.findStr("\\d{1,15}",author);
 
             HouseMess houseMess = new HouseMess();
             houseMess.setAuthor(author);
@@ -80,9 +82,12 @@ public class CrawlDouGroup {
             houseMess.setLastReply(replyTime);
             houseMess.setReplyNub(replyNub);
 
-            houseMess = BaiduPositioning.setPositioning(houseMess);
+
             hous.add(houseMess);
         }
+        hous = hous.stream().filter(houseMess -> houseMess.getPlaceStr().length()>1)
+                .filter(houseMess -> Integer.parseInt(houseMess.getReplyNub()) < 50)
+                .collect(Collectors.toList());
         return hous;
     }
 

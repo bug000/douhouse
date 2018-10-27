@@ -30,8 +30,8 @@ public interface HouseMapper {
             ",lastReply=#{lastReply}" +
             ",author=#{author}" +
             ",placeStr=#{placeStr}" +
-            ",longitude=#{longitude}" +
-            ",latitude=#{latitude}" +
+//            ",longitude=#{longitude}" +
+//            ",latitude=#{latitude}" +
             "WHERE id=#{id}")
     int update(HouseMess model);
 
@@ -41,7 +41,7 @@ public interface HouseMapper {
     @Select("SELECT * FROM house")
     List<HouseMess> selectAll();
 
-    @Select("SELECT * FROM house WHERE lastReply >#{currentTime}")
+    @Select("SELECT * FROM house WHERE lastReply >#{currentTime} AND longitude IS NOT NULL")
     List<HouseMess> selectAllLimitTime(String currentTime);
 
     @Update("UPDATE house SET title=#{title} WHERE id=#{id}")

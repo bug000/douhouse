@@ -20,14 +20,11 @@ import java.util.stream.Collectors;
 
 /**
  * @author zhenyuan_hao@163.com
- *
- * todo 未实现方法
  */
 @RestController
 @EnableAutoConfiguration
 public class MainPlaceController {
     private final Logger logger = LoggerFactory.getLogger(MainPlaceController.class);
-
     private final HouseService service;
 
     @Autowired
@@ -45,10 +42,6 @@ public class MainPlaceController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String curd = sdf.format(currentda);
         List<HouseMess> allll = service.selectAllLimitTime(curd);
-        allll = allll.stream()
-                .filter(houseMess -> houseMess.getPlaceStr().length()>1)
-                .filter(houseMess -> Integer.parseInt(houseMess.getReplyNub()) < 50)
-                .collect(Collectors.toList());
         return allll;
     }
 
