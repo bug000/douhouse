@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <title>SimTest</title>
+    <!--<script src="http://pv.sohu.com/cityjson?ie=utf-8"/>-->
+    <script type="text/javascript">
+        function simp(){
+            jsonData = {
+                // request_ip:returnCitySN['cip']
+            };
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8080/api/v1/basic/place',
+                contentType : "application/json; charset=utf-8",
+                data:JSON.stringify(jsonData),
+                dataType: "text",
+                success: function (e) {
+                    console.info(e);
+                    document.getElementById('score').innerHTML=e;
+                },
+                error: function (e) {
+                    console.info(e)
+                }
+            })
+        }
+        // simp()
+    </script>
+
+</head>
+
+<form>
+<input type="button" value="Submit" onclick="simp()">
+</form>
+
+<hr/>
+<p id="score"></p>
+<hr/>
+
+</body>
+</html>

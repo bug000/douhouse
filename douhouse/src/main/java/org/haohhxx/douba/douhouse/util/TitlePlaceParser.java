@@ -31,7 +31,10 @@ public class TitlePlaceParser {
     }
 
     public static String find(String text){
-        if("".equals(text)){
+        if(text==null){
+            return "";
+        }
+        if(text.trim().length()<=1){
             return "";
         }
         String maxLenRe = "";

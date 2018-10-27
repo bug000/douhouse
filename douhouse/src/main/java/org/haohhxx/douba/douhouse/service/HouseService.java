@@ -32,6 +32,10 @@ public class HouseService {
         return dao.selectAll();
     }
 
+    public List<HouseMess> selectAllLimitTime(String timeLinit) {
+        return dao.selectAllLimitTime(timeLinit);
+    }
+
     public boolean updateTitle(HouseMess model) {
         return dao.updateTitle(model) > 0;
     }

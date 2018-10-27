@@ -16,7 +16,11 @@ import us.codecraft.xsoup.Xsoup;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +31,15 @@ import java.util.List;
 public class CrawlDouGroup {
 
     private static CloseableHttpClient httpclient = HttpClients.createDefault();
+    private Calendar calendar = Calendar.getInstance();
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+    private String replyTimeFormat(String douDateStr) throws ParseException {
+        int year = calendar.get(Calendar.YEAR);
+//        Date date = sdf.parse(year+"-"+douDateStr);
+//        return date.toString();
+        return year+"-"+douDateStr;
+    }
 
     public String getHouseIndex(String groupId,String startPage) throws IOException {
         String baseUrl = "https://www.douban.com/group/%s/discussion?start=%s";
@@ -38,15 +51,12 @@ public class CrawlDouGroup {
         return respContentHtml;
     }
 
-    public List<HouseMess> parserIndexPage(String respContentHtml){
+    public List<HouseMess> parserIndexPage(String respContentHtml) throws ParseException {
         List<HouseMess> hous = new ArrayList<>();
         Document document = Jsoup.parse(respContentHtml);
         int start = 2;
         int stop = 26;
         for (int i = start; i <=stop ; i++) {
-//            todo 修改xpath
-//            //*[@id="content"]/div/div[1]/div[2]/table/tbody/tr[5]/td[1]/a
-////*[@id="content"]/div/div[1]/div[2]/table/tbody/tr[5]/td[2]/a
             String id = Xsoup.compile(String.format("//*[@id=\"content\"]/div/div[1]/div[2]/table/tbody/tr[%d]/td[1]/a/@href", i)).evaluate(document).get();
             String title = Xsoup.compile(String.format("//*[@id=\"content\"]/div/div[1]/div[2]/table/tbody/tr[%d]/td[1]/a/@title", i)).evaluate(document).get();
             String author = Xsoup.compile(String.format("//*[@id=\"content\"]/div/div[1]/div[2]/table/tbody/tr[%d]/td[2]/a/@href", i)).evaluate(document).get();
@@ -58,6 +68,7 @@ public class CrawlDouGroup {
             if("".equals(replyNub)){
                 replyNub = "0";
             }
+            replyTime = replyTimeFormat(replyTime);
             id = TitlePlaceParser.findStr("\\d{1,15}",id);
             author = TitlePlaceParser.findStr("\\d{1,15}",author);
 

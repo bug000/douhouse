@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.haohhxx.douba.douhouse.model.HouseMess;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,12 +35,14 @@ public interface HouseMapper {
             "WHERE id=#{id}")
     int update(HouseMess model);
 
-
     @Select("SELECT * FROM house WHERE id=#{id}")
     HouseMess select(String id);
 
     @Select("SELECT * FROM house")
     List<HouseMess> selectAll();
+
+    @Select("SELECT * FROM house WHERE lastReply >#{currentTime}")
+    List<HouseMess> selectAllLimitTime(String currentTime);
 
     @Update("UPDATE house SET title=#{title} WHERE id=#{id}")
     int updateTitle(HouseMess model);
