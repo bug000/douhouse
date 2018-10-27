@@ -29,7 +29,7 @@ public class CrawlController {
         this.service = service;
     }
 
-    @Scheduled(cron = "0 53/30 * * * ?")
+    @Scheduled(cron = "0 22/30 * * * ?")
     public void pullDataScheduled(){
         String groupId="shanghaizufang";
         int groupTotal = 125;

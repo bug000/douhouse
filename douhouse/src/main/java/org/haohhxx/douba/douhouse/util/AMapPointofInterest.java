@@ -61,8 +61,8 @@ public class AMapPointofInterest {
             Map locMap = (Map)poiList.get(0);
             String locationStr = (String) locMap.get("location");
             String ls[] = locationStr.split(",");
-            houseMess.setLatitude(ls[0]);
-            houseMess.setLongitude(ls[1]);
+            houseMess.setLatitude(ls[1]);
+            houseMess.setLongitude(ls[0]);
         }
         return houseMess;
     }
