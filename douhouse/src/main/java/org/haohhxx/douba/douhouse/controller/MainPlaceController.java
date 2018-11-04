@@ -45,9 +45,6 @@ public class MainPlaceController {
         return allll;
     }
 
-
-
-
 //    @GetMapping("/")
 //    public String homePage(HttpServletRequest request, HttpServletResponse response){
 //        return "/index";

@@ -5,7 +5,7 @@
 
     <groupId>org.haohhxx.douba</groupId>
     <artifactId>douhouse</artifactId>
-    <version>0.0.2-shanghai</version>
+    <version>0.0.3-shanghai</version>
     <packaging>war</packaging>
 
     <name>douhouse</name>
